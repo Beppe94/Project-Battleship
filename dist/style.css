@@ -2,6 +2,11 @@
 
 
 
+.wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(10, 42px);
@@ -19,4 +24,56 @@
 
 .ship {
     background-color: black;
+}
+
+.options {
+    display: flex;
+    align-items: center;
+    height: 250px;
+    gap: 10px;
+}
+
+.destroyer {
+    background-color: rgba(201, 26, 26, 0.678);
+}
+
+.destroyer-ship {
+    width: 80px;
+    height: 40px;
+}
+
+.submarine {
+    background-color: rgba(23, 25, 170, 0.678);
+}
+
+.submarine-ship {
+    width: 120px;
+    height: 40px;
+}
+
+.cruiser {
+    background-color: rgba(45, 170, 62, 0.678);
+}
+
+.cruiser-ship {
+    width: 120px;
+    height: 40px;
+}
+
+.battleship {
+    background-color: rgba(157, 207, 17, 0.678);
+}
+
+.battleship-ship {
+    width: 160px;
+    height: 40px;
+}
+
+.carrier {
+    background-color: rgba(121, 115, 115, 0.678);
+}
+
+.carrier-ship {
+    width: 200px;
+    height: 40px;
 }

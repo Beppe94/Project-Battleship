@@ -1,4 +1,4 @@
-const gridId = document.getElementById('gridId');
+const boardContainer = document.getElementById('board-container');
 const occupiedCells = new Set();
 
 export default class Gameboard {
@@ -6,22 +6,27 @@ export default class Gameboard {
         this.size = size;
     }
 
-    createBoard() {
+    createBoard(user) {
         
-        for(let row = 0; row < this.size; row++) {
-            for(let col = 0; col < this.size; col++) {
-                const cell = document.createElement('div');
-                cell.classList.add('cell');
-                cell.setAttribute('data-row', row);
-                cell.setAttribute('data-col', col);
-                gridId.appendChild(cell);
-            }
+        const width = this.size * this.size;
+
+        const board = document.createElement('div');
+        board.classList.add('grid');
+        board.id = user;
+
+        for(let i = 0; i < width; i++) {
+            const cell = document.createElement('div');
+            cell.classList.add('cell');
+            cell.id = i;
+            board.append(cell);
         }
+
+        boardContainer.append(board)
     }
     
-    placeShip(row, col, length, isHorizontal) {
-        const newOccupiedCells = new Set(); // Temporarily store occupied cells for this ship
-      
+    placeShip(row, col, length, isHorizontal = true) {
+        const newOccupiedCells = new Set();
+
         for (let i = 0; i < length; i++) {
             
             const currentRow = isHorizontal ? row : row + i;
@@ -50,14 +55,14 @@ export default class Gameboard {
     }
     
     coordinates() {
-        gridId.addEventListener('click', (e) => {
+        playerGrid.addEventListener('click', (e) => {
 
             const clickedCell = e.target;
             const row = parseInt(clickedCell.getAttribute('data-row'));
             const col = parseInt(clickedCell.getAttribute('data-col'));
             
             if(!isNaN(row) && !isNaN(col)) {
-                this.placeShip(row, col, 4, false);
+                this.placeShip(row, col, 4);
             }
         })
     }
