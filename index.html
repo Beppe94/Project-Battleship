@@ -12,8 +12,19 @@
         <h1>Battleship</h1>
     </header>
     <main>
-        <div class="wrapper">
-            <div class="grid" id="gridId"></div>
+        <div class="wrapper" id="board-container"></div>
+
+        <div class="options">
+            <div class="destroyer-ship destroyer" draggable="true"></div>
+            <div class="submarine-ship submarine" draggable="true"></div>
+            <div class="cruiser-ship cruiser" draggable="true"></div>
+            <div class="battleship-ship battleship" draggable="true"></div>
+            <div class="carrier-ship carrier" draggable="true"></div>
+        </div>
+
+        <div class="button-div">
+            <button id="flip-button">Flip Ships</button>
+            <button id="start-button">Start</button>
         </div>
     </main>
 </body>
