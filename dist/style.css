@@ -77,3 +77,15 @@
     width: 200px;
     height: 40px;
 }
+
+.hover {
+    background-color: rgba(173, 158, 158, 0.651);
+}
+
+.boom {
+    background-color: red;
+}
+
+.empty {
+    background-color: rgba(21, 21, 224, 0.856);
+}

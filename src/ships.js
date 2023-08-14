@@ -1,13 +1,18 @@
-class Ship {
+import { handleValidity } from "./drag";
+
+export let notDropped;
+
+export let angle = 0;
+
+export class Ship {
     constructor(name, length) {
         this.name = name;
         this.length = length;
     }
 }
 
-let angle = 0;
 
-function flipShips() {
+export function flipShips() {
     const ships = document.querySelector('.options');
 
     const arrayShips = Array.from(ships.children)
@@ -23,39 +28,16 @@ function flipShips() {
     });
 }
 
-function addShips(ship) {
-    const computerBoard = document.querySelectorAll('#computer div');
+export function addShips(user, ship, startId) {
+    const computerBoard = document.querySelectorAll(`#${user} div`);
 
     let randomBool = Math.random() < 0.5;
-    let isHorizontal = randomBool;
+    let isHorizontal = user === 'player' ? angle === 0 : randomBool;
     let randomStart = Math.floor(Math.random() * 100);
 
-    let validStart = isHorizontal ? randomStart <= 100 - ship.length ? randomStart : 
-        100 - ship.length : 
-        randomStart <= 100 - 10 * ship.length ? randomStart : 
-            randomStart - ship.length * 10 + 10;
-
-    let shipBlocks = [];
-
-    for(let i = 0; i < ship.length; i++) {
-        if(isHorizontal) {
-            shipBlocks.push(computerBoard[Number(validStart) + i])
-        } else {
-            shipBlocks.push(computerBoard[Number(validStart) + i * 10])
-        }
-    }
-
-    let valid;
+    let startIndex = startId ? startId : randomStart;
     
-    if(isHorizontal) {
-        valid = shipBlocks.every((_shipBlock, index) =>
-            shipBlocks[0].id % 10 !== 10 - (shipBlocks.length - (index + 1)));
-    } else {
-        valid = shipBlocks.every((_shipBlock, index) => 
-            shipBlocks[0].id < 90 + (10 * index + 1));
-    }
-
-    const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains('taken'));
+    const {shipBlocks, valid, notTaken} = handleValidity(computerBoard, isHorizontal, startIndex, ship)
     
     if(valid && notTaken) {
         shipBlocks.forEach(shipBlock => {
@@ -63,9 +45,15 @@ function addShips(ship) {
             shipBlock.classList.add('taken');
         })
     } else {
-        addShips(ship)
+        if(user === 'computer') addShips(user, ship, startId);
+        if(user === 'player') notDropped = true;
     }
 }
 
+const destroyer = new Ship('destroyer', 2);
+const submarine = new Ship('submarine', 3);
+const cruiser = new Ship('cruiser', 3);
+const battleship = new Ship('battleship', 4);
+const carrier = new Ship('carrier', 5);
 
-module.exports = { flipShips, Ship, addShips}
+export const shipArray = [destroyer, submarine, cruiser, battleship, carrier];
