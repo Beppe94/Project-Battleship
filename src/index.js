@@ -11,18 +11,14 @@ const playerBlocks = document.querySelectorAll('#player div');
 const options = document.querySelector('.options');
 
 
-
 flipBtn.addEventListener('click', flipShips);
 
-
-
 shipArray.forEach(ship => {
-    addShips('computer', ship)
+    addShips('computer', ship);
 });
 
 const optionsArray = Array.from(options.children);
 optionsArray.forEach(optionShip => optionShip.addEventListener('dragstart', dragStart));
-
 
 playerBlocks.forEach(block => {
     block.addEventListener('dragover', dragOver);

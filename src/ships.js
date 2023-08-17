@@ -1,8 +1,8 @@
-import { handleValidity } from "./drag";
-
-export let notDropped;
+import { handleValidity, isDropped } from "./drag";
 
 export let angle = 0;
+
+export let isDroppedShip;
 
 export class Ship {
     constructor(name, length) {
@@ -10,7 +10,6 @@ export class Ship {
         this.length = length;
     }
 }
-
 
 export function flipShips() {
     const ships = document.querySelector('.options');
@@ -29,24 +28,27 @@ export function flipShips() {
 }
 
 export function addShips(user, ship, startId) {
+
     const computerBoard = document.querySelectorAll(`#${user} div`);
 
+    
     let randomBool = Math.random() < 0.5;
     let isHorizontal = user === 'player' ? angle === 0 : randomBool;
     let randomStart = Math.floor(Math.random() * 100);
-
+    
     let startIndex = startId ? startId : randomStart;
     
-    const {shipBlocks, valid, notTaken} = handleValidity(computerBoard, isHorizontal, startIndex, ship)
+    const {shipBlocksArray, valid, notTaken} = handleValidity(computerBoard, isHorizontal, startIndex, ship)
+
     
     if(valid && notTaken) {
-        shipBlocks.forEach(shipBlock => {
-            shipBlock.classList.add(ship.name);
+        shipBlocksArray.forEach(shipBlock => {
+            shipBlock.classList.add(ship.name); 
             shipBlock.classList.add('taken');
-        })
+        }) 
     } else {
-        if(user === 'computer') addShips(user, ship, startId);
-        if(user === 'player') notDropped = true;
+        if(user === 'computer') {addShips('computer', ship, startId)}
+        if(user === 'player') isDropped = true;
     }
 }
 

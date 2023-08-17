@@ -1,10 +1,13 @@
-import { addShips, notDropped, shipArray, angle } from "./ships";
+import { addShips, shipArray, angle } from "./ships";
 
 let draggedShip;
 
+export let isDropped;
+
 export function dragStart(e) {
     draggedShip = e.target;
-    notDropped = false;
+
+    isDropped = false
 }
 
 export function dragOver(e) {
@@ -15,14 +18,15 @@ export function dragOver(e) {
 }
 
 export function dropShip(e) {
-
+    
     const startId = e.target.id;
     const ship = shipArray[draggedShip.id];
-
+    
     addShips('player', ship, startId);
-
-    if(!notDropped) {
+    
+    if(!isDropped) {
         draggedShip.remove();
+        draggedShip = '';
     }
 }
 
@@ -32,29 +36,29 @@ export function handleValidity(computerBoard, isHorizontal, startIndex, ship) {
         startIndex <= 100 - 10 * ship.length ? startIndex : 
             startIndex - ship.length * 10 + 10;
 
-    let shipBlocks = [];
+    let shipBlocksArray = [];
 
     for(let i = 0; i < ship.length; i++) {
         if(isHorizontal) {
-            shipBlocks.push(computerBoard[Number(validStart) + i])
+            shipBlocksArray.push(computerBoard[Number(validStart) + i])
         } else {
-            shipBlocks.push(computerBoard[Number(validStart) + i * 10])
+            shipBlocksArray.push(computerBoard[Number(validStart) + i * 10])
         }
     }
 
     let valid;
     
     if(isHorizontal) {
-        valid = shipBlocks.every((_shipBlock, index) =>
-            shipBlocks[0].id % 10 !== 10 - (shipBlocks.length - (index + 1)));
+        valid = shipBlocksArray.every((_shipBlock, index) =>
+            shipBlocksArray[0].id % 10 !== 10 - (shipBlocksArray.length - (index + 1)));
     } else {
-        valid = shipBlocks.every((_shipBlock, index) => 
-            shipBlocks[0].id < 90 + (10 * index + 1));
+        valid = shipBlocksArray.every((_shipBlock, index) => 
+            shipBlocksArray[0].id < 90 + (10 * index + 1));
     }
 
-    const notTaken = shipBlocks.every(shipBlock => !shipBlock.classList.contains('taken'));
-
-    return {shipBlocks, valid, notTaken};
+    const notTaken = shipBlocksArray.every(shipBlock => !shipBlock.classList.contains('taken'));
+    
+    return {shipBlocksArray, valid, notTaken};
 }
 
 function highlight(startIndex, ship) {
@@ -62,12 +66,12 @@ function highlight(startIndex, ship) {
 
     let isHorizontal = angle === 0;
 
-    const {shipBlocks, valid, notTaken} = handleValidity(boardBlocks, isHorizontal, startIndex, ship);
+    const {shipBlocksArray, valid, notTaken} = handleValidity(boardBlocks, isHorizontal, startIndex, ship);
 
     if(valid && notTaken) {
-        shipBlocks.forEach(shipBlock => {
-            shipBlock.classList.add('hover');
-            setTimeout(() => shipBlock.classList.remove('hover'), 300);
+        shipBlocksArray.forEach(highlight => {
+            highlight.classList.add('hover');
+            setTimeout(() => highlight.classList.remove('hover'), 400);
         })
     }
 }
