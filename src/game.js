@@ -7,11 +7,16 @@ let playerTurn;
 
 export function startGame() {
 
-    if(shipContainer.children.length != 0) {
-        infoDisplay.textContent = 'Infos: Place down the ships first';
-    } else {
-        const computerAllBlocks = document.querySelectorAll("#computer div")
-        computerAllBlocks.forEach(block => block.addEventListener('click', handleClick))
+    if(playerTurn === undefined) {
+        if(shipContainer.children.length != 0) {
+            infoDisplay.textContent = 'Infos: Place down the ships first';
+        } else {
+            const computerAllBlocks = document.querySelectorAll("#computer div");
+            computerAllBlocks.forEach(block => block.addEventListener('click', handleClick));
+            playerTurn = true;
+            infoDisplay.textContent = 'Infos: The game has started!';
+            turnDisplay.textContent = 'Turn: Your turn';
+        }
     }
 }
 
@@ -22,7 +27,10 @@ const computerSunkShips = [];
 
 function handleClick(e) {
     if(!gameOver) {
-        if(e.target.classList.contains('taken')) {
+        if(e.target.classList.contains('boom') || e.target.classList.contains('empty')) {
+            infoDisplay.textContent = 'Infos: We already hit that spot';
+            return;
+        } else if(e.target.classList.contains('taken')) {
             e.target.classList.add('boom');
             infoDisplay.textContent = 'Infos: Enemy ship hit';
             let classes = Array.from(e.target.classList)
@@ -34,7 +42,7 @@ function handleClick(e) {
             checkScore('player', playerHits, playerSunkShips);
         }
 
-        if(!e.target.classList.contain('taken')) {
+        if(!e.target.classList.contains('taken')) {
             infoDisplay.textContent = 'Infos: Target Missed.'
             e.target.classList.add('empty')
         }
@@ -50,45 +58,73 @@ function handleClick(e) {
 
 function computerTurn() {
     if(!gameOver) {
-        infoDisplay.textContent = 'Computer\'s thinking...';
-        turnDisplay.textContent = 'Computer\'s Turn';
+        infoDisplay.textContent = 'Infos: Computer\'s thinking...';
+        turnDisplay.textContent = 'Turn: Computer\'s Turn';
 
-        setTimeout(() => {
-          let random = Math.floor(Math.random() * 10 * 10);  
-          const allPlayerBlocks = document.querySelectorAll('#player div');
-          if(allPlayerBlocks[random].classList.contains('taken') && allPlayerBlocks[random].classList.contains('boom')) {
-            computerTurn();
-            return;
-          } else if(allPlayerBlocks[random].classList.contains('taken') && !allPlayerBlocks[random].classList.contains('boom')) {
-            allPlayerBlocks[random].classList.add('boom');
-            infoDisplay.textContent = 'Enemy hit us!';
-            let classes = Array.from(e.target.classList)
-            classes = classes.filter(className => className !== 'block');
-            classes = classes.filter(className => className !== 'boom');
-            classes = classes.filter(className => className !== 'taken');
-            classes = classes.filter(className => className !== 'cell');
-            computerHits.push(...classes);
-            checkScore('computer', computerHits, computerSunkShips)
+            let random = Math.floor(Math.random() * 10 * 10);  
+            const allPlayerBlocks = document.querySelectorAll('#player div');
+            if(allPlayerBlocks[random].classList.contains('boom') || allPlayerBlocks[random].classList.contains('empty')) {
+                computerTurn();
+                return;
+            } else if(allPlayerBlocks[random].classList.contains('taken') && !allPlayerBlocks[random].classList.contains('boom')) {
+                infoDisplay.textContent = 'Infos: Enemy hit us!';
+                allPlayerBlocks[random].classList.add('boom');
+                let classes = Array.from(allPlayerBlocks[random].classList)
+                classes = classes.filter(className => className !== 'block');
+                classes = classes.filter(className => className !== 'boom');
+                classes = classes.filter(className => className !== 'taken');
+                classes = classes.filter(className => className !== 'cell');
+                computerHits.push(...classes);
+                setTimeout(() => {
+                    computerTurn();
+                }, 2000);
+                checkScore('computer', computerHits, computerSunkShips);
             } else {
-                infoDisplay.textContent = 'Enemy missed us!';
+                infoDisplay.textContent = 'Infos: Enemy missed us!';
                 allPlayerBlocks[random].classList.add('empty');
             }
-        }, 3000);
 
         setTimeout(() => {
             playerTurn = true;
-            infoDisplay.textContent = 'Take aim!';
-            turnDisplay.textContent = 'Your Turn!';
+            infoDisplay.textContent = 'Infos: Take aim!';
+            turnDisplay.textContent = 'Turn: Your Turn!';
             const allComputerBlocks = document.querySelectorAll('#computer div');
             allComputerBlocks.forEach(block => block.addEventListener('click', handleClick))
-        }, 6000);
+        }, 2000);
     }
 }
 
 function checkScore(user, hits, sunk) {
 
     function checkShip(shipName, shipLength) {
-        hits.filter()
+        if(hits.filter(storedShip => storedShip === shipName).length === shipLength) {
+            if(user === 'player') {
+                infoDisplay.textContent = `Infos: You sunk the enemy's ${shipName}`;
+                playerHits = hits.filter(storedShip => storedShip !== shipName)
+            }
+            if(user === 'computer') {
+                infoDisplay.textContent = `Infos: The enemy sunk our ${shipName}`;
+                computerHits = hits.filter(storedShip => storedShip !== shipName)
+            }
+            sunk.push(shipName)
+        }
     }
 
+    checkShip('destroyer', 2);
+    checkShip('submarine', 3);
+    checkShip('cruiser', 3);
+    checkShip('battleship', 4);
+    checkShip('carrier', 5);
+
+    if(playerSunkShips.length === 5) {
+        infoDisplay.textContent = 'Infos: You sunk all the enemy\'s ships, you won!!';
+        gameOver = true;
+    }
+    if(computerSunkShips === 5) {
+        infoDisplay.textContent = 'Infos: The enemy sunk all our ships, we lost..';
+        gameOver = true;
+    }
 }
+
+
+

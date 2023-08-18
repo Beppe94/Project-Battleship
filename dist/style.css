@@ -83,10 +83,15 @@
     background-color: rgba(173, 158, 158, 0.651);
 }
 
+#computer .cell {
+    background-color: aqua;
+}
+
 .boom {
-    background-color: red;
+    background-color: red !important;
 }
 
 .empty {
-    background-color: rgba(21, 21, 224, 0.856);
+    background-color: rgba(21, 21, 224, 0.856) !important;
 }
+
