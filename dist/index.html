@@ -12,26 +12,34 @@
         <h1>Battleship</h1>
     </header>
     <main>
-        <div>
-            <h2 id="info-div">Infos: </h2>
+        <div class="info-wrapper">
+            <h2 id="info-disply">Infos: </h2>
             <h2 id="turn-display">Turn: </h2>
         </div>
 
         <div class="wrapper" id="board-container">
         </div>
 
-        <div class="options">
-            <div id="0" class="destroyer-ship destroyer" draggable="true"></div>
-            <div id="1" class="submarine-ship submarine" draggable="true"></div>
-            <div id="2" class="cruiser-ship cruiser" draggable="true"></div>
-            <div id="3" class="battleship-ship battleship" draggable="true"></div>
-            <div id="4" class="carrier-ship carrier" draggable="true"></div>
+        <div class="options-wrapper">
+            <div class="options-inner-wrap">
+                <div class="options-text">
+                    <h3>Your Ships </h3>
+                </div>
+                <div class="options">
+                    <div id="0" class="destroyer-ship destroyer" draggable="true"></div>
+                    <div id="1" class="submarine-ship submarine" draggable="true"></div>
+                    <div id="2" class="cruiser-ship cruiser" draggable="true"></div>
+                    <div id="3" class="battleship-ship battleship" draggable="true"></div>
+                    <div id="4" class="carrier-ship carrier" draggable="true"></div>
+                </div>
+            </div>
+
+            <div class="button-div">
+                <button id="flip-button">Flip Ships</button>
+                <button id="start-button">Start</button>
+            </div>
         </div>
 
-        <div class="button-div">
-            <button id="flip-button">Flip Ships</button>
-            <button id="start-button">Start</button>
-        </div>
     </main>
 </body>
 </html>

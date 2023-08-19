@@ -1,5 +1,5 @@
 const shipContainer = document.querySelector('.options');
-const infoDisplay = document.getElementById('info-div');
+const infoDisplay = document.getElementById('info-disply');
 const turnDisplay = document.getElementById('turn-display');
 
 let gameOver = false;
@@ -9,13 +9,13 @@ export function startGame() {
 
     if(playerTurn === undefined) {
         if(shipContainer.children.length != 0) {
-            infoDisplay.textContent = 'Infos: Place down the ships first';
+            infoDisplay.textContent = 'Infos: Place down all the ships first!';
         } else {
             const computerAllBlocks = document.querySelectorAll("#computer div");
             computerAllBlocks.forEach(block => block.addEventListener('click', handleClick));
             playerTurn = true;
             infoDisplay.textContent = 'Infos: The game has started!';
-            turnDisplay.textContent = 'Turn: Your turn';
+            turnDisplay.textContent = 'Turn: Your turn.';
         }
     }
 }
@@ -28,11 +28,11 @@ const computerSunkShips = [];
 function handleClick(e) {
     if(!gameOver) {
         if(e.target.classList.contains('boom') || e.target.classList.contains('empty')) {
-            infoDisplay.textContent = 'Infos: We already hit that spot';
+            infoDisplay.textContent = 'Infos: We already hit that spot!';
             return;
         } else if(e.target.classList.contains('taken')) {
             e.target.classList.add('boom');
-            infoDisplay.textContent = 'Infos: Enemy ship hit';
+            infoDisplay.textContent = 'Infos: Enemy ship hit!';
             let classes = Array.from(e.target.classList)
             classes = classes.filter(className => className !== 'block');
             classes = classes.filter(className => className !== 'boom');
@@ -43,14 +43,14 @@ function handleClick(e) {
         }
 
         if(!e.target.classList.contains('taken')) {
-            infoDisplay.textContent = 'Infos: Target Missed.'
-            e.target.classList.add('empty')
+            infoDisplay.textContent = 'Infos: Target Missed.';
+            e.target.classList.add('empty');
         }
 
         playerTurn = false;
 
         const allComputerBlocks = document.querySelectorAll('#computer div');
-        allComputerBlocks.forEach(block => block.replaceWith(block.cloneNode(true)))
+        allComputerBlocks.forEach(block => block.replaceWith(block.cloneNode(true)));
         setTimeout(computerTurn, 3000);
     }
 }
@@ -59,7 +59,7 @@ function handleClick(e) {
 function computerTurn() {
     if(!gameOver) {
         infoDisplay.textContent = 'Infos: Computer\'s thinking...';
-        turnDisplay.textContent = 'Turn: Computer\'s Turn';
+        turnDisplay.textContent = 'Turn: Computer\'s Turn.';
 
             let random = Math.floor(Math.random() * 10 * 10);  
             const allPlayerBlocks = document.querySelectorAll('#player div');
@@ -87,7 +87,7 @@ function computerTurn() {
         setTimeout(() => {
             playerTurn = true;
             infoDisplay.textContent = 'Infos: Take aim!';
-            turnDisplay.textContent = 'Turn: Your Turn!';
+            turnDisplay.textContent = 'Turn: Your Turn.';
             const allComputerBlocks = document.querySelectorAll('#computer div');
             allComputerBlocks.forEach(block => block.addEventListener('click', handleClick))
         }, 2000);
@@ -99,11 +99,11 @@ function checkScore(user, hits, sunk) {
     function checkShip(shipName, shipLength) {
         if(hits.filter(storedShip => storedShip === shipName).length === shipLength) {
             if(user === 'player') {
-                infoDisplay.textContent = `Infos: You sunk the enemy's ${shipName}`;
+                infoDisplay.textContent = `Infos: You sunk the enemy's ${shipName}!`;
                 playerHits = hits.filter(storedShip => storedShip !== shipName)
             }
             if(user === 'computer') {
-                infoDisplay.textContent = `Infos: The enemy sunk our ${shipName}`;
+                infoDisplay.textContent = `Infos: The enemy sunk our ${shipName}!`;
                 computerHits = hits.filter(storedShip => storedShip !== shipName)
             }
             sunk.push(shipName)
