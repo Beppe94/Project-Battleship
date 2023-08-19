@@ -1,14 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
 
+*,
+*::before,
+*::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 
+:root {
+    --padding-size: 20px;
+    --borders: 2px solid black;
+}
 
+body {
+    height: 100vh;
+    color: #fefefe;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: linear-gradient(150deg,#fefefe, #41d1be 50%, #e29911de 50%);
+    background-repeat: repeat;
+    background-size: cover;
+    background-position: center center;
+}
+
+header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: var(--padding-size);
+}
+
+.info-wrapper {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-content: center;
+    flex-wrap: wrap;
+    padding: var(--padding-size);
+    gap: 2em;
+}
 
 .wrapper {
     display: flex;
     justify-content: space-between;
+    padding: 1em;
+    width: 100%;
 }
 
 .grid {
+    width: 50%;
     display: grid;
+    justify-content: center;
     grid-template-columns: repeat(10, 42px);
     gap: 1px;
 }
@@ -16,66 +58,100 @@
 .cell {
     width: 40px;
     height: 40px;
-    border: 1px solid black;
+    border: 2px solid black;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.ship {
-    background-color: black;
+.options-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: var(--padding-size);
+}
+
+.options-inner-wrap {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    flex-direction: column;
+    align-items: center;
 }
 
 .options {
     display: flex;
+    justify-content: center;
     align-items: center;
-    height: 250px;
+    height: 112px;
     gap: 10px;
+}
+
+.button-div {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: var(--padding-size);
+    width: 50%;
+    gap: 2em;
+}
+
+.button-div button {
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: 550;
+    font-size: 16px;
 }
 
 .destroyer {
     background-color: rgba(201, 26, 26, 0.678);
+    border: var(--borders);
 }
 
 .destroyer-ship {
-    width: 80px;
-    height: 40px;
+    width: 40px;
+    height: 30px;
 }
 
 .submarine {
     background-color: rgba(23, 25, 170, 0.678);
+    border: var(--borders);
 }
 
 .submarine-ship {
-    width: 120px;
-    height: 40px;
+    width: 60px;
+    height: 30px;
 }
 
 .cruiser {
     background-color: rgba(45, 170, 62, 0.678);
+    border: var(--borders);
 }
 
 .cruiser-ship {
-    width: 120px;
-    height: 40px;
+    width: 60px;
+    height: 30px;
 }
 
 .battleship {
-    background-color: rgba(157, 207, 17, 0.678);
+    background-color: rgba(219, 223, 18, 0.678);
+    border: var(--borders);
 }
 
 .battleship-ship {
-    width: 160px;
-    height: 40px;
+    width: 80px;
+    height: 30px;
 }
 
 .carrier {
-    background-color: rgba(121, 115, 115, 0.678);
+    background-color: rgba(193, 26, 199, 0.678);
+    border: var(--borders);
 }
 
 .carrier-ship {
-    width: 200px;
-    height: 40px;
+    width: 100px;
+    height: 30px;
 }
 
 .hover {
@@ -84,7 +160,7 @@
 }
 
 #computer .cell {
-    background-color: aqua;
+    background-color: rgb(152, 156, 156);
 }
 
 .boom {
@@ -92,6 +168,6 @@
 }
 
 .empty {
-    background-color: rgba(21, 21, 224, 0.856) !important;
+    background-color: rgba(49, 100, 211, 0.856) !important;
 }
 
