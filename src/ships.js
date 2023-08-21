@@ -4,7 +4,7 @@ export let angle = 0;
 
 export let isDroppedShip;
 
-export class Ship {
+export class CreateShip {
     constructor(name, length) {
         this.name = name;
         this.length = length;
@@ -52,10 +52,10 @@ export function addShips(user, ship, startId) {
     }
 }
 
-const destroyer = new Ship('destroyer', 2);
-const submarine = new Ship('submarine', 3);
-const cruiser = new Ship('cruiser', 3);
-const battleship = new Ship('battleship', 4);
-const carrier = new Ship('carrier', 5);
+const destroyer = new CreateShip('destroyer', 2);
+const submarine = new CreateShip('submarine', 3);
+const cruiser = new CreateShip('cruiser', 3);
+const battleship = new CreateShip('battleship', 4);
+const carrier = new CreateShip('carrier', 5);
 
 export const shipArray = [destroyer, submarine, cruiser, battleship, carrier];
